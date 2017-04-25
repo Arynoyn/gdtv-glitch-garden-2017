@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 using System;
 
@@ -7,12 +8,18 @@ public class LevelManager : MonoBehaviour {
 	public float AutoLoadNextLevelAfter;
 
 	public void Start() {
-		Invoke ("LoadNextLevel", AutoLoadNextLevelAfter);
+        if (AutoLoadNextLevelAfter == 0) {
+            Debug.Log("Level Auto Load Disabled");
+        }
+        else {
+            Invoke("LoadNextLevel", AutoLoadNextLevelAfter);
+        }
+        
 	}
 
 	public void LoadLevel(string name){
         Debug.Log(string.Format("Level load requested for: {0}", name));
-        Application.LoadLevel(name);
+        SceneManager.LoadScene(name);
     }
     
     public void QuitRequest(){
@@ -22,6 +29,6 @@ public class LevelManager : MonoBehaviour {
 
     public void LoadNextLevel()
     {
-        Application.LoadLevel(Application.loadedLevel + 1);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }    
 }
